@@ -82,3 +82,23 @@ class TestPostCompanies(BasicCompanyApiTestCase):
         self.assertEqual(response.status_code, 201)
         self.assertEqual(response_content.get('name'), 'Test Company 1')
         self.assertEqual(response_content.get('status'), 'Layoffs')
+
+
+@pytest.mark.xfail
+def test_should_be_ok_if_fails(self) -> None:
+    self.assertEqual(1, 2)
+
+
+@pytest.mark.skip
+def test_should_be_skipped(self) -> None:
+    self.assertEqual(1, 2)
+
+
+def raise_covid19_exception() -> None:
+    raise ValueError('Coronavirus Exception')
+
+
+def test_raise_covid_19_exception_should_pass() -> None:
+    with pytest.raises(ValueError) as e:
+        raise_covid19_exception()
+    assert 'Coronavirus Exception' == str(e.value)
